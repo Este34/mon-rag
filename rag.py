@@ -7,6 +7,7 @@ Voir docs/guide.md pour les explications detaillees, etape par etape.
 import os
 
 import numpy as np
+import ollama
 from sentence_transformers import SentenceTransformer
 
 CORPUS_DIR = "corpus"
@@ -43,14 +44,15 @@ def rechercher(question: str, k: int = 2) -> list[str]:
 
 
 def repondre(question: str) -> str:
-    """Augmented + Generation : construit le prompt avec le contexte et appelle le LLM.
+    contexte = "\n".join(rechercher(question))
+    prompt = f"""réponds à la question en t'appuyant uniquement sur le contexte ci-dessous. Si tu ne trouves pas la réponse dis le.
+Contexte :
+{contexte}
 
-    TODO (etape 4 du guide) :
-      1. recuperer le contexte via rechercher(question),
-      2. construire un prompt qui demande de repondre UNIQUEMENT a partir du contexte,
-      3. appeler ollama.generate(...) et renvoyer la reponse.
-    """
-    raise NotImplementedError("A implementer : voir docs/guide.md, etape 4")
+    Question : {question}
+    Réponse : """
+    sortie = ollama.generate(model="llama3.2", prompt=prompt)
+    return sortie["response"]
 
 
 def main() -> None:
