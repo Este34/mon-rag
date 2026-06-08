@@ -6,7 +6,11 @@ Voir docs/guide.md pour les explications detaillees, etape par etape.
 
 import os
 
+import numpy as np
+from sentence_transformers import SentenceTransformer
+
 CORPUS_DIR = "corpus"
+MODELE_EMBEDDINGS = "all-MiniLM-L6-v2"
 
 
 def charger_documents(dossier: str = CORPUS_DIR) -> list[str]:
@@ -20,15 +24,22 @@ def charger_documents(dossier: str = CORPUS_DIR) -> list[str]:
     return documents
 
 
+# Chargement (une seule fois au demarrage) : documents, modele, embeddings des documents.
+documents = charger_documents()
+embedder = SentenceTransformer(MODELE_EMBEDDINGS)
+doc_embeddings = embedder.encode(documents)
+
+
 def rechercher(question: str, k: int = 2) -> list[str]:
     """Retrieval : renvoie les k passages les plus proches de la question.
 
-    TODO (etape 3 du guide) :
-      1. transformer la question en embedding,
-      2. calculer la similarite cosinus avec chaque document,
-      3. renvoyer les k documents les plus proches.
+    On transforme la question en embedding, on mesure la similarite cosinus
+    avec chaque document, puis on garde les k plus proches.
     """
-    raise NotImplementedError("A implementer : voir docs/guide.md, etape 3")
+    q_emb = embedder.encode([question])[0]
+    sims = doc_embeddings @ q_emb / (np.linalg.norm(doc_embeddings, axis=1) * np.linalg.norm(q_emb))
+    top_idx = np.argsort(sims)[::-1][:k]
+    return [documents[i] for i in top_idx]
 
 
 def repondre(question: str) -> str:
