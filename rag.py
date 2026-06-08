@@ -14,19 +14,21 @@ CORPUS_DIR = "corpus"
 MODELE_EMBEDDINGS = "all-MiniLM-L6-v2"
 
 
-def charger_documents(dossier: str = CORPUS_DIR) -> list[str]:
-    """Lit chaque fichier .txt du dossier et renvoie la liste des textes (un par fichier)."""
+def charger_documents(dossier: str = CORPUS_DIR) -> tuple[list[str], list[str]]:
+    """Lit chaque fichier .txt du dossier et renvoie (textes, noms de fichiers)."""
     documents: list[str] = []
+    noms: list[str] = []
     for nom in sorted(os.listdir(dossier)):
         if nom.endswith(".txt"):
             chemin = os.path.join(dossier, nom)
             with open(chemin, encoding="utf-8") as f:
                 documents.append(f.read().strip())
-    return documents
+            noms.append(nom)
+    return documents, noms
 
 
 # Chargement (une seule fois au demarrage) : documents, modele, embeddings des documents.
-documents = charger_documents()
+documents, noms_fichiers = charger_documents()
 embedder = SentenceTransformer(MODELE_EMBEDDINGS)
 doc_embeddings = embedder.encode(documents)
 
