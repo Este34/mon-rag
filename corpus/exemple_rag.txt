@@ -1,0 +1,4 @@
+Un système RAG combine une recherche documentaire avec un modèle de langage.
+Les embeddings transforment du texte en vecteurs de nombres.
+La similarité cosinus mesure si deux vecteurs pointent dans la même direction.
+Le découpage (chunking) consiste à couper un long document en petits morceaux.

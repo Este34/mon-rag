@@ -1,0 +1,4 @@
+# Dependances du projet RAG
+sentence-transformers>=3.0.0
+numpy>=1.26.0
+ollama>=0.3.0

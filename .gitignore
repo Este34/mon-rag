@@ -1,0 +1,21 @@
+# Environnement virtuel
+venv/
+.venv/
+
+# Documents confidentiels (CEA, etc.) - JAMAIS versionnes
+corpus/prive/
+
+# Python
+__pycache__/
+*.py[cod]
+.ruff_cache/
+
+# Caches de modeles (telecharges localement, lourds)
+.cache/
+models/
+
+# Outils / IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
