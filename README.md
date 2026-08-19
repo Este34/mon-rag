@@ -4,7 +4,7 @@ Un petit système **RAG** (*Retrieval-Augmented Generation*) en Python, 100 % lo
 sans framework lourd. Il répond à des questions en s'appuyant sur **tes propres documents**.
 
 > Projet d'apprentissage : le but est de comprendre chaque maillon (recherche →
-> augmentation → génération). Le guide pas-à-pas complet est dans [`docs/guide.md`](docs/guide.md).
+> augmentation → génération).
 
 ## Comment ça marche (en 3 temps)
 
